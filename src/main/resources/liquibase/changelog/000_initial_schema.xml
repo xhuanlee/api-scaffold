@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="00001" author="api-scaffold">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints primaryKey="true" primaryKeyName="id"/>
+            </column>
+            <column name="username" remarks="用户名" type="VARCHAR(100)" defaultValue="">
+                <constraints nullable="false" />
+            </column>
+            <column name="password" remarks="用户密码" type="VARCHAR(200)" defaultValue="">
+                <constraints nullable="false" />
+            </column>
+            <column name="nick_name" remarks="昵称" type="VARCHAR(100)" defaultValue="" />
+            <column name="email" remarks="用户邮箱" type="VARCHAR(100)" defaultValue="" />
+            <column name="cellphone" remarks="手机号码" type="VARCHAR(20)" defaultValue="" />
+            <column name="create_time" remarks="创建时间" type="DATETIME" defaultValueComputed="${now}" />
+            <column name="status" remarks="用户状态: 0-禁用; 1-正常" type="TINYINT" defaultValue="1"/>
+        </createTable>
+        <createIndex tableName="user" indexName="username_unique_index" unique="true">
+            <column name="username" />
+        </createIndex>
+        <createIndex tableName="user" indexName="email_unique_index" unique="true">
+            <column name="email" />
+        </createIndex>
+        <createIndex tableName="user" indexName="cellphone_unique_index" unique="true">
+            <column name="cellphone" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="00002" author="api-scaffold">
+        <createTable tableName="role" remarks="角色表">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints primaryKey="true" primaryKeyName="id"/>
+            </column>
+            <column name="role_name" type="VARCHAR(50)" remarks="角色名(ROLE_xxx)" />
+            <column name="role_name_zh" type="VARCHAR(100)" remarks="角色名(中文)" />
+        </createTable>
+    </changeSet>
+    <changeSet id="00003" author="api-scaffold">
+        <createTable tableName="user_role" remarks="用户角色关联表">
+            <column name="user_id" type="INTEGER" remarks="用户id">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="role_id" type="INTEGER" remarks="角色id">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

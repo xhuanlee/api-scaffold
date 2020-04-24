@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>账号激活</title>
+    <style type="text/css">
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+    </style>
+    <script th:inline="JavaScript">
+        /*<![CDATA[*/
+        var result = /*[[${result}]]*/ 'false';
+        var redirect = /*[[${redirect}]]*/ '';
+        if (result === 'true' && redirect && redirect !== '') {
+            var countdown = 5;
+            var interval = setInterval(function() {
+                if (countdown < 0) {
+                    clearInterval(interval);
+                    location.replace(redirect);
+                    return;
+                }
+                document.getElementById("countdown").innerText = countdown--;
+            }, 1000);
+        }
+        /*]]>*/
+
+    </script>
+</head>
+<body>
+    <div class="center">
+        <h1>
+            <span th:text="${activationResult}"/>
+            <span id="countdown"></span>
+        </h1>
+    </div>
+</body>
+</html>

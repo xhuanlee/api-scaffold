@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LoggerHome" value="target/log" />
+    <property name="LoggerHistory" value="target/log/history" />
+    <property name="FileName" value="api-scaffold" />
+    <property name="ServiceFileName" value="api-scaffold-service" />
+    <property name="CONSOLE_LOG_PATTERN" value="%d{YYYY-MM-dd HH:mm:ss.SSS}  %highlight(%-5level) --- [%-15.15thread] [%-50.50c{1}.%15method:%5line] : %m%n" />
+    <property name="FILE_LOG_PATTERN" value="%d{YYYY-MM-dd HH:mm:ss.SSS}  %-5level --- [%-15.15thread] [%-50.50c{1}.%15method:%5line] : %m%n" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                ${CONSOLE_LOG_PATTERN}
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LoggerHome}/${FileName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 按天轮转 -->
+            <fileNamePattern>${LoggerHistory}/${FileName}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- 保存 30 天的历史记录，最大大小为 3GB -->
+            <maxHistory>30</maxHistory>
+            <MaxFileSize>100KB</MaxFileSize>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <appender name="SERVICE-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LoggerHome}/${ServiceFileName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 按天轮转 -->
+            <fileNamePattern>${LoggerHistory}/${ServiceFileName}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- 保存 30 天的历史记录，最大大小为 3GB -->
+            <maxHistory>30</maxHistory>
+            <MaxFileSize>100KB</MaxFileSize>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!--  将 com.xxx.api.apiscaffold.service 下的日志单独记录到一个日志文件 -->
+    <logger name="com.xxx.api.apiscaffold.service" level="debug">
+        <appender-ref ref="SERVICE-FILE" />
+    </logger>
+    <logger name="com.xxx.api.apiscaffold.controller" level="debug" />
+    <logger name="com.xxx.api.apiscaffold.dao" level="debug" />
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>

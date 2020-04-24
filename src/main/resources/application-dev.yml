@@ -1,0 +1,108 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  tomcat:
+    basedir: target/log/tomcat_tmp
+    max-http-form-post-size: -1
+
+spring:
+  devtools:
+    restart:
+      trigger-file: classpath:restart-project.properties
+  application:
+    name: api-scaffold
+    servlet:
+      multipart:
+        max-file-size: 104857600 # 单个文件: 1024 * 1024 * 100 bytes = 100MB
+        max-request-size: 1073741824 # 总文件大小 1024 * 1024 * 1024 = 1GB
+  jackson:
+    default-property-inclusion: non_empty
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write_dates_as_timestamps: false
+  liquibase:
+    change-log: classpath:liquibase/master.xml
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/api_scaffold?createDatabaseIfNotExist=true&useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=GMT%2B8
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: scaffold-db-pool
+
+mybatis:
+  mapper-locations: classpath*:com/xxx/api/apiscaffold/dao/mapper/*.xml
+  type-aliases-package: com.xxx.api.apiscaffold.dao
+
+logging:
+  config: classpath:logback-@package.environment@.xml
+
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  row-bounds-with-count: true
+  auto-dialect: true
+
+custom:
+  swagger-token-url: http://127.0.0.1:8080/oauth/token
+  activation:
+    subject: 激活邮件
+    link: http://127.0.0.1:8080/activation?sign=_{sign}_&email=_{email}_
+    redirect: http://127.0.0.1:10086/login
+    sign-placeholder: _{sign}_
+    email-placeholder: _{email}_
+    link-placeholder: _{link}_
+    email-template-path:
+  reset-password:
+    subject: 重置密码
+    link: http://127.0.0.1：8080/reset_password?sign=_{sign}_&email=_{email}_
+    sign-placeholder: _{sign}_
+    email-placeholder: _{email}_
+    link-placeholder: _{link}_
+    email-template-path:
+  email:
+    host: smtp.exmail.qq.com
+    port: 465
+    useSsl: true
+    username: noreply@api.scaffold.com
+    password: xxxx
+  security:
+    client-id: api-scaffold
+    client-secret: api-scaffold-oauth2-client-secret
+    max-session: 2
+    # access_token 有效期
+    access-token-validity: 300
+    # refresh_token 有效期
+    refresh-token-validity: 604800
+    # session 有效期(根据refresh_token的生成时间来判断是否在有效期内)
+    session-timeout-in-seconds: 1800
+    token-uri: http://127.0.0.1:8080/oauth/token
+    token-sign-key: api-scaffold.security_oauth2_key
+    resource-ids:
+      - api-scaffold
+    permit-uris:
+      - '/oauth/**'
+    ignore-uris:
+      - '/'
+      - '/csrf'
+      - '/actuator'
+      - '/actuator/**'
+      - '/user/register'
+      - '/user/login'
+      - '/user/logout'
+      - '/user/activation'
+      - '/user/reset-password-mail'
+      - '/user/reset-password'
+      - '/activation'
+      - '/activation/email'
+      - '/webjars/**'
+      - '/resources/**'
+      - '/swagger-ui.html'
+      - '/swagger-resources/**'
+      - '/v2/api-docs'
+      - '/error'
+    admin-roles:
+      - 'ROLE_ADMIN'
+      - 'ROLE_MANAGER'

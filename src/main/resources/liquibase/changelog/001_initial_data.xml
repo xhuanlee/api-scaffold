@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="data-0001" author="api-scaffold">
+        <loadData
+                tableName="user"
+                relativeToChangelogFile="false"
+                encoding="UTF-8"
+                file="liquibase/data/user.csv"
+                quotchar="'"
+                separator=","
+        />
+    </changeSet>
+    <changeSet id="data-0002" author="api-scaffold">
+        <loadData
+                tableName="role"
+                relativeToChangelogFile="false"
+                encoding="UTF-8"
+                file="liquibase/data/role.csv"
+                quotchar="'"
+                separator=","
+        />
+    </changeSet>
+    <changeSet id="data-0003" author="api-scaffold">
+        <loadData
+                tableName="user_role"
+                relativeToChangelogFile="false"
+                encoding="UTF-8"
+                file="liquibase/data/user_role.csv"
+                quotchar="'"
+                separator=","
+        />
+    </changeSet>
+
+</databaseChangeLog>

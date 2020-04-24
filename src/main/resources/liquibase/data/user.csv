@@ -1,0 +1,2 @@
+id,username,password,nick_name,email,cellphone,status
+1,admin,$2y$10$Wk0h1HA8M.cVkZ7LJoG.U.D9QKB5YSXM9XAGeO3GMuM14i6q2ShyC,admin,admin@api.scaffold.com,18888888888,1
